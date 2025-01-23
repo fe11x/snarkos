@@ -18,17 +18,17 @@ use crate::{ConsensusParameters, MemoryPool, MerkleTreeLedger};
 use snarkos_dpc::base_dpc::{instantiated::*, parameters::PublicParameters, record::DPCRecord};
 use snarkos_errors::consensus::ConsensusError;
 use snarkos_models::{
-    algorithms::{LoadableMerkleParameters, CRH},
+    algorithms::{CRH, LoadableMerkleParameters},
     dpc::{DPCScheme, Record},
     objects::Transaction,
 };
-use snarkos_objects::{dpc::DPCTransactions, AccountAddress, Block, BlockHeader};
-use snarkos_posw::{txids_to_roots, PoswMarlin};
+use snarkos_objects::{AccountAddress, Block, BlockHeader, dpc::DPCTransactions};
+use snarkos_posw::{PoswMarlin, txids_to_roots};
 use snarkos_storage::Ledger;
 use snarkos_utilities::{bytes::ToBytes, to_bytes};
 
 use chrono::Utc;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 use std::sync::Arc;
 use tokio::sync::Mutex;
 

@@ -24,14 +24,7 @@
     unused_comparisons,
     bare_trait_objects
 )]
-#![deny(
-    const_err,
-    unused_must_use,
-    unused_mut,
-    unused_unsafe,
-    private_in_public,
-    unsafe_code
-)]
+#![deny(unused_must_use, unused_mut, unused_unsafe, unsafe_code)]
 #![forbid(unsafe_code)]
 
 pub mod consensus;

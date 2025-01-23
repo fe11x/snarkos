@@ -17,16 +17,16 @@
 #![deny(unused_import_braces, unused_qualifications, trivial_casts, trivial_numeric_casts)]
 #![deny(unused_qualifications, variant_size_differences, stable_features)]
 #![deny(
-non_shorthand_field_patterns,
-unused_attributes,
-unused_imports,
-unused_extern_crates
+    non_shorthand_field_patterns,
+    unused_attributes,
+    unused_imports,
+    unused_extern_crates
 )]
 #![deny(renamed_and_removed_lints, stable_features, unused_allocation, unused_comparisons)]
-#![deny(unused_must_use, unused_mut, unused_unsafe, private_in_public, unsafe_code)]
+#![deny(unused_must_use, unused_mut, unused_unsafe, unsafe_code)]
 
 // For randomness (during paramgen and proof generation)
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 // For benchmarking
 use std::time::{Duration, Instant};
@@ -157,10 +157,7 @@ impl<'a, F: Field> ConstraintSynthesizer<F> for MiMCDemo<'a, F> {
 fn test_mimc_groth_16() {
     // We're going to use the Groth16 proving system.
     use snarkos_algorithms::snark::groth16::{
-        create_random_proof,
-        generate_random_parameters,
-        prepare_verifying_key,
-        verify_proof,
+        create_random_proof, generate_random_parameters, prepare_verifying_key, verify_proof,
     };
 
     // This may not be cryptographically safe, use
@@ -244,10 +241,7 @@ fn test_mimc_groth_16() {
 fn test_mimc_groth_maller_17() {
     // We're going to use the GM17 proving system.
     use snarkos_algorithms::snark::gm17::{
-        create_random_proof,
-        generate_random_parameters,
-        prepare_verifying_key,
-        verify_proof,
+        create_random_proof, generate_random_parameters, prepare_verifying_key, verify_proof,
     };
 
     // This may not be cryptographically safe, use

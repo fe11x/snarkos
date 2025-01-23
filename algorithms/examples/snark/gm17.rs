@@ -23,7 +23,7 @@
     unused_extern_crates
 )]
 #![deny(renamed_and_removed_lints, stable_features, unused_allocation, unused_comparisons)]
-#![deny(unused_must_use, unused_mut, unused_unsafe, private_in_public, unsafe_code)]
+#![deny(unused_must_use, unused_mut, unused_unsafe, unsafe_code)]
 
 use csv;
 
@@ -43,10 +43,7 @@ use snarkos_models::curves::Field;
 
 // We're going to use the Groth-Maller 17 proving system.
 use snarkos_algorithms::snark::gm17::{
-    create_random_proof,
-    generate_random_parameters,
-    prepare_verifying_key,
-    verify_proof,
+    create_random_proof, generate_random_parameters, prepare_verifying_key, verify_proof,
 };
 
 use std::{env, fs::OpenOptions, path::PathBuf, process};

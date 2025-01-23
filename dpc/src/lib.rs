@@ -14,14 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with the snarkOS library. If not, see <https://www.gnu.org/licenses/>.
 
-#![deny(unused_import_braces, unused_qualifications, trivial_casts, trivial_numeric_casts)]
-#![deny(
-    single_use_lifetimes,
-    unused_qualifications,
-    variant_size_differences,
-    stable_features,
-    unreachable_pub
-)]
+#![deny(unused_import_braces, trivial_casts, trivial_numeric_casts)]
+#![deny(single_use_lifetimes, variant_size_differences, stable_features, unreachable_pub)]
 #![deny(
     non_shorthand_field_patterns,
     unused_attributes,
@@ -35,14 +29,7 @@
     unused_comparisons,
     bare_trait_objects
 )]
-#![deny(
-    const_err,
-    unused_must_use,
-    unused_mut,
-    unused_unsafe,
-    private_in_public,
-    unsafe_code
-)]
+#![deny(unused_must_use, unused_mut, unused_unsafe, unsafe_code)]
 #![forbid(unsafe_code)]
 #![cfg_attr(feature = "clippy", deny(warnings))]
 #![cfg_attr(feature = "clippy", feature(plugin))]
