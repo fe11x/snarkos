@@ -15,8 +15,8 @@
 // along with the snarkOS library. If not, see <https://www.gnu.org/licenses/>.
 
 use crate::message::{
-    types::{GetBlock, GetSync},
     Channel,
+    types::{GetBlock, GetSync},
 };
 use snarkos_errors::network::SendError;
 use snarkos_models::{algorithms::LoadableMerkleParameters, objects::Transaction};
@@ -25,7 +25,6 @@ use snarkos_storage::Ledger;
 
 use chrono::{DateTime, Utc};
 use std::{net::SocketAddr, sync::Arc, time::Duration};
-use tokio::time::delay_for;
 
 #[derive(Clone, PartialEq)]
 pub enum SyncState {
@@ -108,7 +107,7 @@ impl SyncHandler {
             }
 
             if self.block_headers.is_empty() {
-                delay_for(Duration::from_millis(100)).await;
+                tokio::time::sleep(Duration::from_millis(100)).await;
                 if let Ok(block_locator_hashes) = storage.get_block_locator_hashes() {
                     channel.write(&GetSync::new(block_locator_hashes)).await?;
                 }

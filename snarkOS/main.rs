@@ -23,7 +23,7 @@ use snarkos::{
     display::render_init,
 };
 use snarkos_consensus::{ConsensusParameters, MemoryPool, MerkleTreeLedger};
-use snarkos_dpc::base_dpc::{instantiated::Components, parameters::PublicParameters, BaseDPCComponents};
+use snarkos_dpc::base_dpc::{BaseDPCComponents, instantiated::Components, parameters::PublicParameters};
 use snarkos_errors::node::NodeError;
 use snarkos_models::algorithms::{CRH, SNARK};
 use snarkos_network::{
@@ -34,7 +34,7 @@ use snarkos_network::{
 use snarkos_objects::{AccountAddress, Network};
 use snarkos_posw::PoswMarlin;
 use snarkos_rpc::start_rpc_server;
-use snarkos_utilities::{to_bytes, ToBytes};
+use snarkos_utilities::{ToBytes, to_bytes};
 
 use std::{net::SocketAddr, str::FromStr, sync::Arc};
 use tokio::sync::Mutex;
@@ -113,9 +113,8 @@ async fn start_server(config: Config) -> Result<(), NodeError> {
         10000, // 10 seconds
     );
 
-    // Start RPC thread
-
-    if config.rpc.json_rpc {
+    // Start RPC thread    // TODO force disable
+    if config.rpc.json_rpc && false {
         info!("Loading Aleo parameters for RPC...");
         let proving_parameters = PublicParameters::<Components>::load(!config.miner.is_miner)?;
         info!("Loading complete.");

@@ -15,13 +15,14 @@
 // along with the snarkOS library. If not, see <https://www.gnu.org/licenses/>.
 
 use crate::{
-    message::types::{GetMemoryPool, GetPeers},
     Server,
+    message::types::{GetMemoryPool, GetPeers},
 };
 
 use chrono::{Duration as ChronoDuration, Utc};
 use std::time::Duration;
-use tokio::{task, time::delay_for};
+use tokio::task;
+use tokio::time::sleep as delay_for;
 
 impl Server {
     /// Manages the number of active connections according to the connection frequency.

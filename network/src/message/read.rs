@@ -17,10 +17,10 @@
 use crate::message::MessageHeader;
 use snarkos_errors::network::message::{MessageError, MessageHeaderError, StreamReadError};
 
-use tokio::{io::AsyncRead, prelude::*};
+use tokio::io::AsyncReadExt;
 
 /// Returns message bytes read from an input stream.
-pub async fn read_message<T: AsyncRead + Unpin>(mut stream: &mut T, len: usize) -> Result<Vec<u8>, MessageError> {
+pub async fn read_message<T: AsyncReadExt + Unpin>(mut stream: &mut T, len: usize) -> Result<Vec<u8>, MessageError> {
     let mut buffer: Vec<u8> = vec![0; len];
 
     stream_read(&mut stream, &mut buffer).await?;
@@ -29,7 +29,7 @@ pub async fn read_message<T: AsyncRead + Unpin>(mut stream: &mut T, len: usize) 
 }
 
 /// Returns a message header read from an input stream.
-pub async fn read_header<T: AsyncRead + Unpin>(mut stream: &mut T) -> Result<MessageHeader, MessageHeaderError> {
+pub async fn read_header<T: AsyncReadExt + Unpin>(mut stream: &mut T) -> Result<MessageHeader, MessageHeaderError> {
     let mut buffer = [0u8; 16];
 
     stream_read(&mut stream, &mut buffer).await?;
@@ -38,7 +38,7 @@ pub async fn read_header<T: AsyncRead + Unpin>(mut stream: &mut T) -> Result<Mes
 }
 
 /// Reads bytes from an input stream to fill the buffer.
-pub async fn stream_read<'a, T: AsyncRead + Unpin>(
+pub async fn stream_read<'a, T: AsyncReadExt + Unpin>(
     stream: &'a mut T,
     buffer: &'a mut [u8],
 ) -> Result<(), StreamReadError> {
@@ -49,7 +49,7 @@ pub async fn stream_read<'a, T: AsyncRead + Unpin>(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::message::{message::Message, types::Ping, MessageHeader};
+    use crate::message::{MessageHeader, message::Message, types::Ping};
     use snarkos_testing::network::random_socket_address;
 
     use serial_test::serial;

@@ -19,22 +19,22 @@ use crate::{
     message::{Channel, MessageName},
     protocol::*,
 };
+use chrono::{DateTime, Utc};
 use snarkos_consensus::{ConsensusParameters, MemoryPool, MerkleTreeLedger};
 use snarkos_dpc::base_dpc::{
     instantiated::{Components, Tx},
     parameters::PublicParameters,
 };
 use snarkos_errors::network::ServerError;
-
-use chrono::{DateTime, Utc};
 use std::{
     collections::HashMap,
     net::{Shutdown, SocketAddr},
     sync::Arc,
 };
+use tokio::io::AsyncWriteExt;
 use tokio::{
     net::TcpListener,
-    sync::{mpsc, oneshot, Mutex},
+    sync::{Mutex, mpsc, oneshot},
     task,
 };
 
@@ -184,7 +184,7 @@ impl Server {
         let address = format! {"{}:{}", "0.0.0.0", local_address.port()};
         let listening_address = address.parse::<SocketAddr>()?;
 
-        let mut listener = TcpListener::bind(&listening_address).await?;
+        let listener = TcpListener::bind(&listening_address).await?;
         info!("listening at: {:?}", listening_address);
 
         self.connect_bootnodes().await?;
@@ -197,13 +197,11 @@ impl Server {
         // Outer loop spawns one thread to accept new connections.
         task::spawn(async move {
             loop {
-                let (stream, peer_address) = listener.accept().await.expect("Listener failed to accept connection");
+                let (mut stream, peer_address) = listener.accept().await.expect("Listener failed to accept connection");
 
                 // Check if we have too many connected peers
                 if context.peer_book.read().await.connected_total() >= context.max_peers {
-                    stream
-                        .shutdown(Shutdown::Write)
-                        .expect("Failed to shutdown peer stream");
+                    stream.shutdown();
                 } else {
                     let local_address = context.local_address.read().await.clone();
 
